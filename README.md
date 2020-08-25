@@ -1,18 +1,22 @@
 # Email server setup script
 
+This is an attempt to port Luke's emailwiz script for Debian/Ubuntu to Arch.
+**The project is not yet successful**, this warning will disappear once it is.
+
 I wrote this script during the gruelling process of installing and setting up
 an email server.  It perfectly reproduces my successful steps to ensure the
 same setup time and time again.
 
+***This section is not yet implemented***
 I've linked this file on Github to a shorter, more memorable address on my
 website so you can get it on your machine with this short command:
 
 ```
-curl -LO lukesmith.xyz/emailwiz.sh
+curl -LO bocken.org/emailwiz.sh
 ```
 
 When prompted by a dialog menu at the beginning, select "Internet Site", then
-give your full domain without any subdomain, i.e. `lukesmith.xyz`.
+give your full domain without any subdomain, i.e. `bocken.org`.
 
 Read this readme and peruse the script's comments before running it.  Expect it
 to fail and you have to do bug testing and you will be very happy when it
@@ -37,11 +41,10 @@ actually works perfectly.
 
 ## Requirements
 
-1. A **Debian or Ubuntu server**. I've tested this on a
-   [Vultr](https://www.vultr.com/?ref=8384069-6G) Debian server and one running
-   Ubuntu and their setup works, but I suspect other VPS hosts will have
-   similar/possibly identical default settings which will let you run this on
-   them. Note that the affiliate link there to Vultr gives you a $100 credit
+1. A **Arch server**. I've tested this on a
+   [Vultr](https://www.vultr.com/?ref=8665205) Arch server and thei setup works, but I suspect other VPS hosts will
+   have similar/possibly identical default settings which will let you run this
+   on them. Note that the affiliate link there to Vultr gives you a $100 credit
    for the first month to play around.
 2. **A Let's Encrypt SSL certificate for your site's `mail.` subdomain**.
    Create a nginx/apache site at `mail.<yourdomain.com>` and get a certificate
@@ -115,11 +118,6 @@ login. Since we just simply use local PAM logins, only the user's name is used
 You're a big boy now if you have your own mail server!
 
 You can tweak Postfix (sending mail
-
-## Benefited from this?
-
-If this script or documentation has saved you some frustration, you can donate
-to support me at [lukesmith.xyz/donate](https://lukesmith.xyz/donate.html).
 
 ## Troubleshooting -- Can't send mail?
 

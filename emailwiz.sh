@@ -14,17 +14,15 @@
 
 # DEPENDENCIES BEFORE RUNNING
 
-# 1. Have a Debian system with a static IP and all that. Pretty much any
-# default VPS offered by a company will have all the basic stuff you need. This
-# script might run on Ubuntu as well. Haven't tried it. If you have, tell me
-# what happens.
+# 1. Have an Arch system with a static IP and all that. Pretty much any
+# default VPS offered by a company will have all the basic stuff you need.
 
 # 2. Have a Let's Encrypt SSL certificate for $maildomain. You might need one
 # for $domain as well, but they're free with Let's Encypt so you should have
 # them anyway.
 
 # 3. If you've been toying around with your server settings trying to get
-# postfix/dovecot/etc. working before running this, I recommend you `apt purge`
+# postfix/dovecot/etc. working before running this, I recommend you `pacman -Rns`
 # everything first because this script is build on top of only the defaults.
 # Clear out /etc/postfix and /etc/dovecot yourself if needbe.
 
