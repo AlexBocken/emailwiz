@@ -32,9 +32,9 @@
 # `mail.` before it).
 
 echo "Installing programs..."
-pacman -S postfix dovecot pigeonhole opendkim spamassassin spamassassin-spamc
+pacman -S postfix dovecot pigeonhole opendkim spamassassin
 # Check if OpenDKIM is installed and install it if not.
-#which opendkim-genkey >/dev/null 2>&1 || apt install opendkim-tools
+which opendkim-genkey >/dev/null 2>&1 || pacman -S opendkim
 domain="$(cat /etc/mailname)"
 subdom="mail"
 maildomain="$subdom.$domain"
@@ -44,7 +44,7 @@ certdir="/etc/letsencrypt/live/$maildomain"
 
 Use Let's Encrypt's Certbot to get that and then rerun this script.
 
-You may need to set up a dummy $maildomain site in nginx or Apache for that to work." && exit
+You may need to set up a dummy $maildomain site in nginx or Apache for that to work. (A cerbot certonly --nginx -d $maildomain will probably be the quicker/more straightforward way)" && exit
 
 # NOTE ON POSTCONF COMMANDS
 
@@ -55,6 +55,7 @@ You may need to set up a dummy $maildomain site in nginx or Apache for that to w
 
 echo "Configuring Postfix's main.cf..."
 
+postfix check #check whether this command is actually needed
 # Change the cert/key files to the default locations of the Let's Encrypt cert/key
 postconf -e "smtpd_tls_key_file=$certdir/privkey.pem"
 postconf -e "smtpd_tls_cert_file=$certdir/fullchain.pem"
@@ -112,6 +113,9 @@ spamassassin unix -     n       n       -       -       pipe
 # of the original in /usr/share/dovecot if you want.
 
 echo "Creating Dovecot config..."
+
+#create dovecot folder if not present
+mkdir /etc/dovecot
 
 echo "# Dovecot config
 # Note that in the dovecot conf, you can use:
