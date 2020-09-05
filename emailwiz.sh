@@ -97,7 +97,7 @@ sed -i "/^\s*-o/d;/^\s*submission/d;/^\s*smtp/d" /etc/postfix/master.cf
 echo "smtp unix - - n - - smtp
 smtp inet n - y - - smtpd
   -o content_filter=spamassassin
-submission inet n       -       y       -       -       smtpd
+submissions inet n       -       n       -       -       smtpd
   -o syslog_name=postfix/submission
   -o smtpd_tls_security_level=encrypt
   -o smtpd_sasl_auth_enable=yes
