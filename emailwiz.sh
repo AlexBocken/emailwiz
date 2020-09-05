@@ -35,7 +35,12 @@ echo "Installing programs..."
 pacman -S postfix dovecot pigeonhole opendkim spamassassin
 # Check if OpenDKIM is installed and install it if not.
 which opendkim-genkey >/dev/null 2>&1 || pacman -S opendkim
-domain="$(cat /etc/mailname)"
+
+postfix check #check whether this command is actually needed
+echo "What's the domain you wish to use? (Without prefix, i.e. bocken.org)"
+read -r domain
+[ -n "$domain" ] && ( echo "Please enter a domain before continuing" && exit )
+echo "$domain" > /etc/mailname
 subdom="mail"
 maildomain="$subdom.$domain"
 certdir="/etc/letsencrypt/live/$maildomain"
@@ -55,7 +60,6 @@ You may need to set up a dummy $maildomain site in nginx or Apache for that to w
 
 echo "Configuring Postfix's main.cf..."
 
-postfix check #check whether this command is actually needed
 # Change the cert/key files to the default locations of the Let's Encrypt cert/key
 postconf -e "smtpd_tls_key_file=$certdir/privkey.pem"
 postconf -e "smtpd_tls_cert_file=$certdir/fullchain.pem"
