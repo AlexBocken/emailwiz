@@ -37,7 +37,7 @@ pacman -S postfix dovecot pigeonhole opendkim spamassassin
 which opendkim-genkey >/dev/null 2>&1 || pacman -S opendkim
 
 postfix check #check whether this command is actually needed
-echo "What's the domain you wish to use? (Without prefix, i.e. bocken.org)"
+echo "What's the domain you wish to use? (Without prefix, e.g. bocken.org)"
 read -r domain
 [ -n "$domain" ] && ( echo "Please enter a domain before continuing" && exit )
 echo "$domain" > /etc/mailname
@@ -272,6 +272,11 @@ postconf -e "milter_protocol = 6"
 postconf -e "smtpd_milters = inet:localhost:12301"
 postconf -e "non_smtpd_milters = inet:localhost:12301"
 postconf -e "mailbox_command = /usr/lib/dovecot/deliver"
+
+if grep -q smtps /etc/services; then
+	echo "smtps           465/tcp # Secure SMTP
+smtps           465/udp # Secure SMTP" >> /etc/services
+fi
 
 for x in dovecot postfix opendkim spamassassin; do
 	printf "Restarting %s..." "$x"
