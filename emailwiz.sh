@@ -199,7 +199,7 @@ plugin {
 }
 " > /etc/dovecot/dovecot.conf
 
-mkdir /var/lib/dovecot/sieve/
+mkdir -p /var/lib/dovecot/sieve/
 
 echo "require [\"fileinto\", \"mailbox\"];
 if header :contains \"X-Spam-Flag\" \"YES\"
@@ -260,7 +260,7 @@ sed -e '/Socket/s/^#*/#/' -i /etc/opendkim.conf
 sed -i '/\local:\/var\/run\/opendkim\/opendkim.sock/a \Socket\t\t\tinet:12301@localhost' /etc/opendkim.conf
 
 # OpenDKIM daemon settings, removing previously activated socket.
-sed -i "/^SOCKET/d" /etc/default/opendkim && echo "SOCKET=\"inet:12301@localhost\"" >> /etc/default/opendkim
+sed -i "/^SOCKET/d" /etc/default/opendkim && echo "SOCKET=\"inet:12301@localhost\"" >> /etc/default/opendkim #IS THIS ACTUALLY NECESSARY?
 
 # Here we add to postconf the needed settings for working with OpenDKIM
 echo "Configuring Postfix with OpenDKIM settings..."
