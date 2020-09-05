@@ -248,19 +248,17 @@ grep -q "127.0.0.1" /etc/postfix/dkim/trustedhosts 2>/dev/null ||
 10.1.0.0/16
 1.2.3.4/24" >> /etc/postfix/dkim/trustedhosts
 
-# ...and source it from opendkim.conf
-grep -q "^KeyTable" /etc/opendkim.conf 2>/dev/null || echo "KeyTable file:/etc/postfix/dkim/keytable
-SigningTable refile:/etc/postfix/dkim/signingtable
-InternalHosts refile:/etc/postfix/dkim/trustedhosts" >> /etc/opendkim.conf
-
-sed -i '/^#Canonicalization/s/simple/relaxed\/simple/' /etc/opendkim.conf
-sed -i '/^#Canonicalization/s/^#//' /etc/opendkim.conf
-
-sed -e '/Socket/s/^#*/#/' -i /etc/opendkim.conf
-sed -i '/\local:\/var\/run\/opendkim\/opendkim.sock/a \Socket\t\t\tinet:12301@localhost' /etc/opendkim.conf
-
-# OpenDKIM daemon settings, removing previously activated socket.
-sed -i "/^SOCKET/d" /etc/default/opendkim && echo "SOCKET=\"inet:12301@localhost\"" >> /etc/default/opendkim #IS THIS ACTUALLY NECESSARY?
+mkdir -p /var/run/opendkim
+echo"Syslog                  yes
+UMask                   007
+Canonicalization        relaxed/simple
+Socket                  inet:12301@localhost
+PidFile                 /var/run/opendkim/opendkim.pid
+OversignHeaders         From
+UserID                  opendkim
+KeyTable                file:/etc/postfix/dkim/keytable
+SigningTable            refile:/etc/postfix/dkim/signingtable
+InternalHosts           refile:/etc/postfix/dkim/trustedhosts" > /etc/opendkim/opendkim.conf
 
 # Here we add to postconf the needed settings for working with OpenDKIM
 echo "Configuring Postfix with OpenDKIM settings..."
